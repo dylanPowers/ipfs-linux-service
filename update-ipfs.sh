@@ -3,7 +3,7 @@ go get -u github.com/jbenet/go-ipfs/cmd/ipfs
 sudo service ipfs stop
 
 if [ ! $GOPATH ]; then
-  echo "I'm missing a GOPATH environment variable. Try again with sudo -E"
+  echo "I'm missing a GOPATH environment variable :("
   exit
 else
   sudo cp $GOPATH/bin/ipfs /usr/local/bin/ipfs
