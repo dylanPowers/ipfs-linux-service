@@ -13,7 +13,8 @@ fi
 export IPFS_PATH=/var/lib/ipfs
 IPFS_USER=ipfs-daemon
 
-ln -sf $GOPATH/bin/ipfs /usr/local/bin/ipfs
+## Note: Copying rather than linking avoids permissions problems
+cp $GOPATH/bin/ipfs /usr/local/bin/ipfs
 if [ ! -d $IPFS_PATH ]; then mkdir -p $IPFS_PATH; fi
 ipfs init >/dev/null
   
