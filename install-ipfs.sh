@@ -13,6 +13,15 @@ fi
 export IPFS_PATH=/var/lib/ipfs
 IPFS_USER=ipfs-daemon
 
+
+ipfs_running="
+There's already an ipfs service installed and running. Are you sure you don't
+just want to run update-ipfs.sh? If not, stop the service and try this again."
+if service ipfs status &>/dev/null; then
+  echo "$ipfs_running"
+  exit
+fi
+
 ## Note: Copying rather than linking avoids permissions problems
 cp $GOPATH/bin/ipfs /usr/local/bin/ipfs
 if [ ! -d $IPFS_PATH ]; then mkdir -p $IPFS_PATH; fi
