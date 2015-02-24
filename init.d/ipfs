@@ -47,8 +47,8 @@ do_start() {
 	start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON --test >/dev/null \
 		|| return 1
 	start-stop-daemon --start --quiet --pidfile $PIDFILE --make-pidfile \
-	                  --background --chuid $IPFS_USER \
-	                  --exec /usr/bin/env IPFS_PATH="$IPFS_PATH" $DAEMON \
+	                  --background --chuid $IPFS_USER --no-close \
+	                  --exec /usr/bin/env IPFS_PATH="$IPFS_PATH" $DAEMON 2>>$IPFS_PATH/logs/daemon.log 1>/dev/null \
 	                  -- $DAEMON_ARGS \
     || return 2
 }
