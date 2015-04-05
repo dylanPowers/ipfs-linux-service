@@ -1,5 +1,9 @@
-#!/bin/sh
-go get -u github.com/ipfs/go-ipfs/cmd/ipfs
+#!/bin/bash
+
+cd "$(dirname "$0")"
+
+source lib/download.sh
+
 sudo service ipfs stop
 
 if [ ! $GOPATH ]; then
