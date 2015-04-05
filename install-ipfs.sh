@@ -8,4 +8,6 @@ if [ ! $GOPATH ]; then
 fi
 
 source lib/download.sh
+
+echo "Installing the service now. This will require root"
 sudo -E lib/install-service.sh
