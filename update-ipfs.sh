@@ -7,7 +7,7 @@ if [ ! $GOPATH ]; then
   exit
 fi
 
-if [ $1 != "--no-download" ]; then
+if [ "$1" != "--no-download" ]; then
   source lib/download.sh
 fi
 
