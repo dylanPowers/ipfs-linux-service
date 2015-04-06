@@ -7,7 +7,9 @@ if [ ! $GOPATH ]; then
   exit
 fi
 
-source lib/download.sh
+if [ $1 != "--no-download" ]; then
+  source lib/download.sh
+fi
 
 echo "Stopping the service and copying the binary over. This will require root."
 sudo service ipfs stop && \
