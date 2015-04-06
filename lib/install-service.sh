@@ -27,7 +27,7 @@ ipfs init >/dev/null
 ## Check if the daemon user exists
 id -u $IPFS_USER &>/dev/null
 if [ $? -ne 0 ]; then
-  useradd --system $IPFS_USER --shell /bin/false
+  useradd --system $IPFS_USER --shell /bin/false -G fuse
 fi
 chown -R $IPFS_USER:$IPFS_USER $IPFS_PATH
 

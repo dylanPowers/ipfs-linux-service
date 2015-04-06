@@ -15,7 +15,7 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin
 DESC="ipfs daemon"
 NAME=ipfs
 DAEMON=/usr/local/bin/ipfs
-DAEMON_ARGS="daemon"
+DAEMON_ARGS="daemon --mount"
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
