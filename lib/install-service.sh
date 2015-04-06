@@ -2,6 +2,9 @@
 
 IPFS_PATH=/var/lib/ipfs
 IPFS_USER=ipfs-daemon
+IPFS_GROUP=ipfs
+
+current_user=$1
 
 ipfs_running="
 There's already an ipfs service installed and running. Are you sure you don't
@@ -29,24 +32,43 @@ id -u $IPFS_USER &>/dev/null
 if [ $? -ne 0 ]; then
   useradd --system $IPFS_USER --shell /bin/false -G fuse
 fi
-chown -R $IPFS_USER:$IPFS_USER $IPFS_PATH
+
+egrep -i "^$IPFS_GROUP:" /etc/group &>/dev/null
+if [ $? -ne 0 ]; then
+  groupadd $IPFS_GROUP
+fi
+
+## Add the user to the group if they aren't root
+if [ "$current_user" != "root" ]; then
+  usermod --append --groups $IPFS_GROUP $current_user
+fi
+
+chown -R $IPFS_USER:$IPFS_GROUP $IPFS_PATH
 
 cp init.d/ipfs /etc/init.d/ipfs
 chmod +x /etc/init.d/ipfs
 update-rc.d ipfs defaults >/dev/null
 
 msg="
+                           ***********************
 ****************************  Daemon Installed!  *******************************
-The ipfs daemon has now been installed. You may now start it as a system
-service. With most distros you can run the following to start the service:
+                           ***********************
+The ipfs daemon has now been installed. A few last things to know:
+
+Importantly, the IPFS_PATH environment variable with the location of the ipfs
+configuration must be loaded into your shell when running ipfs commands. I hate
+it when scripts touch my .bashrc so I'm going to leave it to you to add into
+your .bashrc the following line:
+                       export IPFS_PATH=$IPFS_PATH
+
+$current_user has been added to the group $IPFS_GROUP. This gives you permission
+to run ipfs commands and edit the config, but that won't take effect until you
+log in again.
+
+The daemon has been installed as an init script. After tweaking the ipfs
+configuration found at $IPFS_PATH/config to your liking, on most distros,
+you may now start the ipfs daemon by running the following:
                         \`sudo service ipfs start\`
 
-The ipfs configuration can be found at $IPFS_PATH/
-
-However, one last step!!!
-The IPFS_PATH environment variable with the location of the ipfs
-configuration must be loaded into your shell when running ipfs commands.
-So add into your .bashrc:
-                       export IPFS_PATH=$IPFS_PATH
 "
 printf "$msg"
