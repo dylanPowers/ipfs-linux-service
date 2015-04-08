@@ -20,9 +20,18 @@ if service ipfs status &>/dev/null; then
   done
 fi
 
+make_mount_dir() {
+  dir=$1;
+  mkdir $dir;
+  chown $IPFS_USER:$IPFS_USER $dir
+  chmod 775 $dir
+}
+
 ## Note: Copying rather than linking avoids permissions problems
 cp $GOPATH/bin/ipfs /usr/local/bin/ipfs
 if [ ! -d $IPFS_PATH ]; then mkdir -p $IPFS_PATH; fi
+if [ ! -d /ipfs ]; then make_mount_dir /ipfs; fi
+if [ ! -d /ipns ]; then make_mount_dir /ipns; fi
 
 echo "Initializing ipfs... This can take some time to generate the keys"
 ipfs init >/dev/null
