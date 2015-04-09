@@ -37,6 +37,7 @@ if [ ! -d /ipns ]; then make_mount_dir /ipns; fi
 
 echo "Initializing ipfs... This can take some time to generate the keys"
 ipfs init >/dev/null
+ipfs config Mounts.FuseAllowOther --bool true
 
 ## Check if the daemon user exists
 id -u $IPFS_USER &>/dev/null
