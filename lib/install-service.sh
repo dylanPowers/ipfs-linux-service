@@ -29,6 +29,8 @@ make_mount_dir() {
 
 ## Note: Copying rather than linking avoids permissions problems
 cp $GOPATH/bin/ipfs /usr/local/bin/ipfs
+
+## Create the variously required directories
 if [ ! -d $IPFS_PATH ]; then mkdir -p $IPFS_PATH; fi
 if [ ! -d /ipfs ]; then make_mount_dir /ipfs; fi
 if [ ! -d /ipns ]; then make_mount_dir /ipns; fi
@@ -56,9 +58,11 @@ chown -R $IPFS_USER:$IPFS_GROUP $IPFS_PATH
 
 cp init.d/ipfs /etc/init.d/ipfs
 chmod +x /etc/init.d/ipfs
+
+## The part that actually tells the system to load the daemon upon start
 update-rc.d ipfs defaults >/dev/null
 
-msg="
+printf "
                            ***********************
 ****************************  Daemon Installed!  *******************************
                            ***********************
@@ -80,4 +84,3 @@ you may now start the ipfs daemon by running the following:
                         \`sudo service ipfs start\`
 
 "
-printf "$msg"
