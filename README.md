@@ -1,7 +1,7 @@
 IPFS Linux Init Daemon
 ======================
 Note that for multi-user systems this is entirely useless. For a single user
-system however (like on a cloud server), it's helpful because IPFS will
+system however, it's helpful because IPFS will
 automatically be started at boot and always be at the ready without resorting
 to running it in a screen process.
 
@@ -16,6 +16,10 @@ with:
 ```
 ./update-ipfs.sh
 ```
-
-Note that this one doesn't require you to run as root, but will instead later ask 
+Note that these don't require being ran as root, but will instead later ask 
 for root permissions.
+
+You'll be able to later start and stop the daemon with the command:
+```
+sudo service ipfs start/stop/restart
+```
