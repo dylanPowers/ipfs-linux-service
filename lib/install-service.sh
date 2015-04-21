@@ -20,6 +20,12 @@ if service ipfs status &>/dev/null; then
   done
 fi
 
+## Check if the daemon user exists
+id -u $IPFS_USER &>/dev/null
+if [ $? -ne 0 ]; then
+  useradd --system $IPFS_USER --shell /bin/false -G fuse
+fi
+
 make_mount_dir() {
   dir=$1;
   mkdir $dir;
@@ -38,12 +44,6 @@ if [ ! -d /ipns ]; then make_mount_dir /ipns; fi
 echo "Initializing ipfs... This can take some time to generate the keys"
 ipfs init >/dev/null
 ipfs config Mounts.FuseAllowOther --bool true
-
-## Check if the daemon user exists
-id -u $IPFS_USER &>/dev/null
-if [ $? -ne 0 ]; then
-  useradd --system $IPFS_USER --shell /bin/false -G fuse
-fi
 
 egrep -i "^$IPFS_GROUP:" /etc/group &>/dev/null
 if [ $? -ne 0 ]; then
