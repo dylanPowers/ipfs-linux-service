@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IPFS_PATH=/var/lib/ipfs
+export IPFS_PATH=/var/lib/ipfs
 IPFS_USER=ipfs-daemon
 IPFS_GROUP=ipfs
 
